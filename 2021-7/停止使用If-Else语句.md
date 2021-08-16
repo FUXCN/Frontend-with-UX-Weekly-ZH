@@ -6,9 +6,9 @@
 
 如果当前编写的类中的方法需要根据状态的不同来改变实现方法，那么可以使用这种方法。如果不涉及到状态的改变，那么可以使用其他的方法。
 
-也许有很多读者听说过状态模式，但是还是想了解这种模式是如何在生产模式下工作的。
+也许有很多读者听说过状态模式，但是还是想了解这种模式是如何在准生产模式下工作的。
 
-对于那些仍然一头雾水的人来说，这里有一个非常简要的介绍：
+如果你依然一头雾水得话，那么这里简单地介绍一下：
 
 > 使用 If-Else 语句只会不断的增加程序的复杂度，在不停增加的条件下
 >
@@ -16,15 +16,15 @@
 
 下面的代码已经是过去式了：
 
-![Poor if-else statements](https://miro.medium.com/max/700/1*bLGhV7DJmTPcPklCenG6ww.png)
+![](./assets/Poor if-else statements.png)
 
-读者们之前应该还写过更复杂的分支情况，因为我之前就这么干过。
+读者们之前应该还写过更复杂的分支情况——我之前就这么干过。
 
 上面的分支逻辑其实不算很复杂，但是如果需要加入新的条件的话你会看见自己的程序代码爆掉。
 
 当然肯定也会有读者认为创建新的类来代替分支语句非常的麻烦，那么可以立刻实践一下，这种方式简洁而又优雅。
 
-更棒的是，除了  `“D”`  部分，它会让代码库更加可靠。
+更棒的是，除了  `“D”`  部分，它会让代码库更加符合 `SOLID` 原则。
 
 **好的，现在我知道了 If-Else 的代码非常的冗余，快点告诉我如何避免多余的分支代码. **
 
@@ -34,7 +34,7 @@
 
 下图简单阐述了 booking 类的几种状态：
 
-![img](https://miro.medium.com/max/700/1*BsaE08azoOE5HJDC3AhZlg.png)
+![](./assets/bookingState.png)
 
 从代码中重构分支逻辑有三个步骤:
 
@@ -46,21 +46,21 @@
 
 首先创造会被继承的基类
 
-![img](https://miro.medium.com/max/700/1*tk7VU1IXVacffxU268v9Pw.png)
+![](./assets/baseClass.png)
 
-注意这个基类也有两个方法，Accept和Cancel——尽管在这里它们被标记为internal。
+注意这个基类也有两个方法，`Accept`和 `Cancel`——尽管在这里它们被标记为 `internal`。
 
 此外，这个基态有一个特殊的 `EnterState(Booking booking)` 方法。每当给 `booking` 对象分配一个新状态时，就会调用这个函数。
 
 其次，为每个状态设置单独的实现类。
 
-![img](https://miro.medium.com/max/700/1*ormvF4PcmTFtvoAOdE93SA.png)
+![img](./assets/implement.png)
 
-注意每个类是如何表示上面优雅的图中所描述的状态的。另外，`CancelledState` 不允许我们的 `booking` 转换到一个新的状态。这个类在本质上与空对象模式非常相似。
+注意每个类是如何简洁地表示上面图中所描述的状态的。另外，`CancelledState` 不允许我们的 `booking` 转换到一个新的状态。这个类在本质上与空对象模式非常相似。
 
 最后， `booking` 类本身：
 
-![img](https://miro.medium.com/max/700/1*7o2BnmPzYNcHThF9OelHcg.png)
+![img](./assets/booking.png)
 
 可以看出 `booking` 类非常优雅的实现了 `Accept`  状态和 `Cancel` 状态的转化。
 
